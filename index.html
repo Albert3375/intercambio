@@ -409,6 +409,41 @@
             cursor: pointer;
         }
         
+        /* Share section */
+        .share-section {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(198, 40, 40, 0.05);
+            border-radius: 10px;
+        }
+        
+        .share-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+        
+        .share-btn.whatsapp {
+            background: #25D366;
+        }
+        
+        .share-btn.facebook {
+            background: #3b5998;
+        }
+        
+        .share-btn.link {
+            background: var(--primary);
+        }
+        
         /* Animations */
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
@@ -485,6 +520,19 @@
 
         <!-- Sección de Login/Registro -->
         <div id="auth-section">
+            <div class="share-section">
+                <h3><i class="fas fa-share-alt"></i> Comparte este intercambio</h3>
+                <p>Comparte este enlace con todos los participantes:</p>
+                <div style="margin: 15px 0;">
+                    <input type="text" id="share-link" value="" readonly style="width: 100%; padding: 10px; background: white; border: 1px solid #ddd; border-radius: 5px;">
+                    <button id="copy-link" class="share-btn link" style="margin-top: 10px;"><i class="fas fa-copy"></i> Copiar Enlace</button>
+                </div>
+                <div>
+                    <button class="share-btn whatsapp" onclick="shareOnWhatsApp()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                    <button class="share-btn facebook" onclick="shareOnFacebook()"><i class="fab fa-facebook"></i> Facebook</button>
+                </div>
+            </div>
+
             <div class="card">
                 <h2 class="card-title"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h2>
                 <div id="login-alert" class="alert hidden"></div>
@@ -622,10 +670,14 @@
     </footer>
 
     <script>
-        // Datos almacenados en localStorage
-        let users = JSON.parse(localStorage.getItem('christmasExchangeUsers')) || [];
-        let assignments = JSON.parse(localStorage.getItem('christmasExchangeAssignments')) || {};
-        let preferences = JSON.parse(localStorage.getItem('christmasExchangePreferences')) || {};
+        // SOLUCIÓN: Usar un ID único para este intercambio y almacenar datos en un servicio externo simulado
+        // En un caso real, esto se conectaría a una base de datos
+        const EXCHANGE_ID = 'navidad2023_familia';
+        
+        // Datos almacenados en localStorage con ID único
+        let users = JSON.parse(localStorage.getItem(`${EXCHANGE_ID}_users`)) || [];
+        let assignments = JSON.parse(localStorage.getItem(`${EXCHANGE_ID}_assignments`)) || {};
+        let preferences = JSON.parse(localStorage.getItem(`${EXCHANGE_ID}_preferences`)) || {};
         let currentUser = null;
         let isAdmin = false;
 
@@ -633,6 +685,7 @@
         const authSection = document.getElementById('auth-section');
         const mainSection = document.getElementById('main-section');
         const mainNav = document.getElementById('main-nav');
+        const shareLink = document.getElementById('share-link');
         
         const loginAlert = document.getElementById('login-alert');
         const registerAlert = document.getElementById('register-alert');
@@ -652,8 +705,11 @@
 
         // Inicialización
         document.addEventListener('DOMContentLoaded', function() {
+            // Establecer el enlace para compartir
+            shareLink.value = window.location.href;
+            
             // Verificar si hay un usuario logueado
-            const savedUser = localStorage.getItem('currentUser');
+            const savedUser = localStorage.getItem(`${EXCHANGE_ID}_currentUser`);
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
                 showMainInterface();
@@ -666,6 +722,7 @@
             document.getElementById('logout-btn').addEventListener('click', logout);
             document.getElementById('save-preferences').addEventListener('click', savePreferences);
             document.getElementById('add-category').addEventListener('click', addCategory);
+            document.getElementById('copy-link').addEventListener('click', copyLink);
             
             // Navegación por pestañas
             navTabs.forEach(tab => {
@@ -690,7 +747,33 @@
             
             // Actualizar lista de participantes cada 3 segundos
             setInterval(updateParticipantsList, 3000);
+            
+            // Sincronizar datos entre pestañas
+            window.addEventListener('storage', function(e) {
+                if (e.key === `${EXCHANGE_ID}_users`) {
+                    users = JSON.parse(e.newValue) || [];
+                    updateParticipantsList();
+                }
+            });
         });
+
+        // Copiar enlace al portapapeles
+        function copyLink() {
+            shareLink.select();
+            document.execCommand('copy');
+            showAlert(loginAlert, '¡Enlace copiado al portapapeles!', 'success');
+        }
+
+        // Compartir en WhatsApp
+        function shareOnWhatsApp() {
+            const text = `¡Únete a nuestro Intercambio Navideño! 🎄\n\nPresupuesto: $300 MXN o más\n\nEnlace: ${window.location.href}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // Compartir en Facebook
+        function shareOnFacebook() {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
+        }
 
         // Mostrar pestaña específica
         function showTab(tabId) {
@@ -730,7 +813,7 @@
             
             if (user) {
                 currentUser = user;
-                localStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem(`${EXCHANGE_ID}_currentUser`, JSON.stringify(user));
                 showMainInterface();
                 showAlert(loginAlert, '¡Inicio de sesión exitoso!', 'success');
                 
@@ -770,7 +853,10 @@
             };
             
             users.push(newUser);
-            localStorage.setItem('christmasExchangeUsers', JSON.stringify(users));
+            localStorage.setItem(`${EXCHANGE_ID}_users`, JSON.stringify(users));
+            
+            // Disparar evento de storage para sincronizar entre pestañas
+            window.dispatchEvent(new Event('storage'));
             
             showAlert(registerAlert, '¡Registro exitoso! Ahora inicia sesión', 'success');
             
@@ -826,7 +912,7 @@
         // Cerrar sesión
         function logout() {
             currentUser = null;
-            localStorage.removeItem('currentUser');
+            localStorage.removeItem(`${EXCHANGE_ID}_currentUser`);
             
             authSection.classList.remove('hidden');
             mainSection.classList.add('hidden');
@@ -913,7 +999,7 @@
             }
             
             // Guardar asignaciones
-            localStorage.setItem('christmasExchangeAssignments', JSON.stringify(assignments));
+            localStorage.setItem(`${EXCHANGE_ID}_assignments`, JSON.stringify(assignments));
             
             showAlert(drawAlert, '¡Sorteo realizado con éxito!', 'success');
             
@@ -1031,7 +1117,7 @@
             
             userPreferences.categories.push(selectedCategory);
             preferences[currentUser.id] = userPreferences;
-            localStorage.setItem('christmasExchangePreferences', JSON.stringify(preferences));
+            localStorage.setItem(`${EXCHANGE_ID}_preferences`, JSON.stringify(preferences));
             
             // Actualizar la visualización
             loadPreferences();
@@ -1044,7 +1130,7 @@
             if (userPreferences && userPreferences.categories) {
                 userPreferences.categories = userPreferences.categories.filter(c => c !== category);
                 preferences[currentUser.id] = userPreferences;
-                localStorage.setItem('christmasExchangePreferences', JSON.stringify(preferences));
+                localStorage.setItem(`${EXCHANGE_ID}_preferences`, JSON.stringify(preferences));
                 
                 // Actualizar la visualización
                 loadPreferences();
@@ -1065,7 +1151,7 @@
             userPreferences.allergies = allergies;
             
             preferences[currentUser.id] = userPreferences;
-            localStorage.setItem('christmasExchangePreferences', JSON.stringify(preferences));
+            localStorage.setItem(`${EXCHANGE_ID}_preferences`, JSON.stringify(preferences));
             
             showAlert(preferencesAlert, 'Tus preferencias se han guardado correctamente', 'success');
         }
