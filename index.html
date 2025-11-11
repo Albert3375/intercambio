@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intercambio Navideño</title>
+    <title>🎄 Intercambio Navideño 🎁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #c62828;
-            --secondary-color: #2e7d32;
-            --accent-color: #ffd54f;
-            --light-color: #f5f5f5;
-            --dark-color: #333;
+            --primary: #c62828;
+            --primary-dark: #8e0000;
+            --secondary: #2e7d32;
+            --secondary-dark: #1b5e20;
+            --accent: #ffd54f;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #757575;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
         }
         
         * {
@@ -21,55 +28,87 @@
         }
         
         body {
-            background-color: #f8f9fa;
-            color: var(--dark-color);
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+            background: linear-gradient(135deg, #1a2a3a, #0d1b2a);
+            color: var(--light);
+            min-height: 100vh;
             padding: 20px;
         }
         
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
         header {
-            background: linear-gradient(135deg, var(--primary-color), #8e0000);
-            color: white;
-            padding: 30px 0;
             text-align: center;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px 0;
             margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--accent), #ffeb3b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(255, 213, 79, 0.3);
         }
         
         .subtitle {
             font-size: 1.2rem;
             opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .snowflakes {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .snowflake {
+            color: white;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .snowflake:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        
+        .snowflake:nth-child(3) {
+            animation-delay: 1s;
         }
         
         .card {
-            background: white;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
             padding: 25px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
         }
         
         .card-title {
-            color: var(--primary-color);
-            margin-bottom: 15px;
+            color: var(--accent);
+            margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--accent-color);
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .form-group {
@@ -80,208 +119,351 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
+            color: var(--accent);
         }
         
         input[type="text"],
         input[type="email"],
         input[type="password"] {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
             font-size: 1rem;
-            transition: border 0.3s;
+            color: white;
+            transition: all 0.3s;
         }
         
         input:focus {
-            border-color: var(--primary-color);
+            border-color: var(--accent);
             outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 213, 79, 0.3);
         }
         
-        button {
-            background-color: var(--primary-color);
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
+            padding: 14px 25px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        button:hover {
-            background-color: #a00;
+        .btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #600);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(198, 40, 40, 0.4);
         }
         
-        button.secondary {
-            background-color: var(--secondary-color);
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
         }
         
-        button.secondary:hover {
-            background-color: #1b5e20;
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, var(--secondary-dark), #0d4010);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.4);
         }
         
-        .participants-list {
-            list-style-type: none;
-            margin-top: 15px;
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), #ffc107);
+            color: var(--dark);
         }
         
-        .participants-list li {
-            padding: 10px;
-            background-color: #f8f9fa;
-            margin-bottom: 8px;
-            border-radius: 5px;
-            border-left: 4px solid var(--primary-color);
+        .btn-accent:hover {
+            background: linear-gradient(135deg, #ffc107, #ffa000);
+            box-shadow: 0 5px 15px rgba(255, 213, 79, 0.4);
         }
         
-        .result {
+        .participants-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .participant-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .participant-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .participant-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .result-container {
             text-align: center;
             padding: 30px;
-            background-color: #e8f5e9;
-            border-radius: 10px;
+            background: rgba(46, 125, 50, 0.2);
+            border-radius: 15px;
             margin-top: 20px;
-            border: 2px dashed var(--secondary-color);
+            border: 2px dashed var(--accent);
+            position: relative;
+            overflow: hidden;
         }
         
-        .result h3 {
-            color: var(--secondary-color);
-            margin-bottom: 15px;
+        .result-container::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 213, 79, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
         }
         
-        .result p {
-            font-size: 1.2rem;
-            margin: 10px 0;
+        .result-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: var(--accent);
+            text-shadow: 0 2px 10px rgba(255, 213, 79, 0.5);
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid var(--success);
+            color: #a5d6a7;
+        }
+        
+        .alert-error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid var(--error);
+            color: #ffab91;
+        }
+        
+        .alert-warning {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid var(--warning);
+            color: #ffcc80;
         }
         
         .hidden {
             display: none;
         }
         
-        .alert {
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        
-        .alert-success {
-            background-color: #e8f5e9;
-            color: var(--secondary-color);
-            border: 1px solid var(--secondary-color);
-        }
-        
-        .alert-error {
-            background-color: #ffebee;
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-        }
-        
         .admin-section {
-            background-color: #fff3e0;
-            border: 2px solid var(--accent-color);
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 5px;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .tab.active {
+            background: rgba(255, 213, 79, 0.2);
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
         }
         
         footer {
             text-align: center;
             margin-top: 40px;
             padding: 20px;
-            color: #666;
+            color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
         }
         
-        @media (max-width: 600px) {
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent);
+            opacity: 0;
+            z-index: 1000;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        @media (max-width: 768px) {
             .container {
                 padding: 10px;
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+            
+            .participants-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
             
             .card {
-                padding: 15px;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>🎄 Intercambio Navideño 🎁</h1>
-            <p class="subtitle">Regístrate y descubre a quién te toca regalar</p>
-        </div>
-    </header>
-
     <div class="container">
+        <header>
+            <h1><i class="fas fa-gift"></i> Intercambio Navideño <i class="fas fa-tree"></i></h1>
+            <p class="subtitle">Regístrate y descubre a quién te toca regalar en esta Navidad</p>
+            <div class="snowflakes">
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❅</div>
+                <div class="snowflake">❆</div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="login">Iniciar Sesión</div>
+            <div class="tab" data-tab="register">Registrarse</div>
+            <div class="tab" data-tab="participants">Participantes</div>
+            <div class="tab" data-tab="result">Mi Resultado</div>
+        </div>
+
         <!-- Sección de Login -->
-        <div id="login-section" class="card">
-            <h2 class="card-title">Iniciar Sesión</h2>
-            <div id="login-alert" class="alert hidden"></div>
-            <div class="form-group">
-                <label for="login-email">Correo electrónico</label>
-                <input type="email" id="login-email" placeholder="Tu correo electrónico">
+        <div id="login-section" class="tab-content active">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h2>
+                <div id="login-alert" class="alert hidden"></div>
+                <div class="form-group">
+                    <label for="login-email"><i class="fas fa-envelope"></i> Correo electrónico</label>
+                    <input type="email" id="login-email" placeholder="Tu correo electrónico">
+                </div>
+                <div class="form-group">
+                    <label for="login-password"><i class="fas fa-lock"></i> Contraseña</label>
+                    <input type="password" id="login-password" placeholder="Tu contraseña">
+                </div>
+                <button id="login-btn" class="btn"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
             </div>
-            <div class="form-group">
-                <label for="login-password">Contraseña</label>
-                <input type="password" id="login-password" placeholder="Tu contraseña">
-            </div>
-            <button id="login-btn">Iniciar Sesión</button>
-            <p style="margin-top: 15px;">¿No tienes cuenta? <a href="#" id="show-register">Regístrate aquí</a></p>
         </div>
 
         <!-- Sección de Registro -->
-        <div id="register-section" class="card hidden">
-            <h2 class="card-title">Registro de Participante</h2>
-            <div id="register-alert" class="alert hidden"></div>
-            <div class="form-group">
-                <label for="register-name">Nombre completo</label>
-                <input type="text" id="register-name" placeholder="Tu nombre completo">
+        <div id="register-section" class="tab-content">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-user-plus"></i> Registro de Participante</h2>
+                <div id="register-alert" class="alert hidden"></div>
+                <div class="form-group">
+                    <label for="register-name"><i class="fas fa-user"></i> Nombre completo</label>
+                    <input type="text" id="register-name" placeholder="Tu nombre completo">
+                </div>
+                <div class="form-group">
+                    <label for="register-email"><i class="fas fa-envelope"></i> Correo electrónico</label>
+                    <input type="email" id="register-email" placeholder="Tu correo electrónico">
+                </div>
+                <div class="form-group">
+                    <label for="register-password"><i class="fas fa-lock"></i> Contraseña</label>
+                    <input type="password" id="register-password" placeholder="Crea una contraseña">
+                </div>
+                <button id="register-btn" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Registrarme</button>
             </div>
-            <div class="form-group">
-                <label for="register-email">Correo electrónico</label>
-                <input type="email" id="register-email" placeholder="Tu correo electrónico">
-            </div>
-            <div class="form-group">
-                <label for="register-password">Contraseña</label>
-                <input type="password" id="register-password" placeholder="Crea una contraseña">
-            </div>
-            <button id="register-btn">Registrarme</button>
-            <p style="margin-top: 15px;">¿Ya tienes cuenta? <a href="#" id="show-login">Inicia sesión aquí</a></p>
         </div>
 
         <!-- Sección de Participantes -->
-        <div id="participants-section" class="card hidden">
-            <h2 class="card-title">Participantes Registrados</h2>
-            <ul id="participants-list" class="participants-list">
-                <!-- Los participantes se mostrarán aquí -->
-            </ul>
-        </div>
-
-        <!-- Sección de Resultados -->
-        <div id="result-section" class="card hidden">
-            <h2 class="card-title">Tu Pareja de Intercambio</h2>
-            <div id="result-content" class="result">
-                <!-- El resultado se mostrará aquí -->
+        <div id="participants-section" class="tab-content">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-users"></i> Participantes Registrados</h2>
+                <p>Estas son las personas que participan en el intercambio:</p>
+                <div id="participants-container" class="participants-container">
+                    <!-- Los participantes se mostrarán aquí -->
+                </div>
+            </div>
+            
+            <!-- Sección de Administrador -->
+            <div id="admin-section" class="card admin-section">
+                <h2 class="card-title"><i class="fas fa-crown"></i> Panel de Administración</h2>
+                <p>Como administrador, puedes realizar el sorteo cuando todos estén registrados.</p>
+                <button id="draw-btn" class="btn btn-accent"><i class="fas fa-random"></i> Realizar Sorteo</button>
+                <div id="draw-alert" class="alert hidden" style="margin-top: 15px;"></div>
             </div>
         </div>
 
-        <!-- Sección de Administrador -->
-        <div id="admin-section" class="card admin-section hidden">
-            <h2 class="card-title">Panel de Administración</h2>
-            <p>Cuando todos estén registrados, puedes realizar el sorteo.</p>
-            <button id="draw-btn" class="secondary">Realizar Sorteo</button>
-            <div id="draw-alert" class="alert hidden" style="margin-top: 15px;"></div>
+        <!-- Sección de Resultados -->
+        <div id="result-section" class="tab-content">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-gift"></i> Tu Pareja de Intercambio</h2>
+                <div id="result-content" class="result-container">
+                    <!-- El resultado se mostrará aquí -->
+                </div>
+            </div>
         </div>
+
+        <footer>
+            <p>Intercambio Navideño © 2023 - ¡Que la magia de la Navidad llene tu corazón!</p>
+        </footer>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>Intercambio Navideño © 2023 - ¡Felices Fiestas!</p>
-        </div>
-    </footer>
-
     <script>
-        // Datos de ejemplo (en una aplicación real, esto estaría en una base de datos)
+        // Datos almacenados en localStorage
         let users = JSON.parse(localStorage.getItem('christmasExchangeUsers')) || [];
         let assignments = JSON.parse(localStorage.getItem('christmasExchangeAssignments')) || {};
         let currentUser = null;
@@ -298,8 +480,11 @@
         const registerAlert = document.getElementById('register-alert');
         const drawAlert = document.getElementById('draw-alert');
         
-        const participantsList = document.getElementById('participants-list');
+        const participantsContainer = document.getElementById('participants-container');
         const resultContent = document.getElementById('result-content');
+        
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
 
         // Inicialización
         document.addEventListener('DOMContentLoaded', function() {
@@ -308,35 +493,43 @@
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
                 showUserInterface();
+                showTab('participants');
             }
 
             // Event listeners
             document.getElementById('login-btn').addEventListener('click', login);
             document.getElementById('register-btn').addEventListener('click', register);
-            document.getElementById('show-register').addEventListener('click', showRegister);
-            document.getElementById('show-login').addEventListener('click', showLogin);
             document.getElementById('draw-btn').addEventListener('click', performDraw);
+            
+            // Tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    showTab(tabId);
+                });
+            });
+            
+            // Actualizar lista de participantes cada 2 segundos
+            setInterval(updateParticipantsList, 2000);
         });
 
-        // Mostrar formulario de registro
-        function showRegister() {
-            loginSection.classList.add('hidden');
-            registerSection.classList.remove('hidden');
-            clearAlerts();
-        }
-
-        // Mostrar formulario de login
-        function showLogin() {
-            registerSection.classList.add('hidden');
-            loginSection.classList.remove('hidden');
-            clearAlerts();
-        }
-
-        // Limpiar alertas
-        function clearAlerts() {
-            loginAlert.classList.add('hidden');
-            registerAlert.classList.add('hidden');
-            drawAlert.classList.add('hidden');
+        // Mostrar pestaña específica
+        function showTab(tabId) {
+            tabs.forEach(tab => {
+                if (tab.getAttribute('data-tab') === tabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            tabContents.forEach(content => {
+                if (content.id === `${tabId}-section`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
         }
 
         // Función de login
@@ -356,6 +549,11 @@
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 showUserInterface();
                 showAlert(loginAlert, '¡Inicio de sesión exitoso!', 'success');
+                showTab('participants');
+                
+                // Limpiar formulario
+                document.getElementById('login-email').value = '';
+                document.getElementById('login-password').value = '';
             } else {
                 showAlert(loginAlert, 'Credenciales incorrectas', 'error');
             }
@@ -383,7 +581,8 @@
                 id: Date.now().toString(),
                 name: name,
                 email: email,
-                password: password
+                password: password,
+                avatar: getRandomAvatar()
             };
             
             users.push(newUser);
@@ -396,49 +595,56 @@
             document.getElementById('register-email').value = '';
             document.getElementById('register-password').value = '';
             
+            // Actualizar lista de participantes
+            updateParticipantsList();
+            
             // Mostrar formulario de login después de 2 segundos
             setTimeout(() => {
-                showLogin();
+                showTab('login');
             }, 2000);
         }
 
         // Mostrar interfaz de usuario después del login
         function showUserInterface() {
-            loginSection.classList.add('hidden');
-            registerSection.classList.add('hidden');
-            
-            // Mostrar participantes
-            updateParticipantsList();
-            participantsSection.classList.remove('hidden');
-            
             // Verificar si es admin (primer usuario registrado)
             isAdmin = users.length > 0 && users[0].id === currentUser.id;
             
             // Mostrar panel de admin si corresponde
             if (isAdmin) {
                 adminSection.classList.remove('hidden');
+            } else {
+                adminSection.classList.add('hidden');
             }
             
             // Verificar si ya se realizó el sorteo
-            if (Object.keys(assignments).length > 0) {
-                // Mostrar resultado si el usuario ya tiene asignación
-                if (assignments[currentUser.id]) {
-                    showAssignmentResult();
-                } else {
-                    resultContent.innerHTML = '<p>El sorteo ya se realizó, pero no tienes una asignación. Contacta al administrador.</p>';
-                    resultSection.classList.remove('hidden');
-                }
+            if (Object.keys(assignments).length > 0 && assignments[currentUser.id]) {
+                showAssignmentResult();
             }
+            
+            // Actualizar lista de participantes
+            updateParticipantsList();
         }
 
         // Actualizar lista de participantes
         function updateParticipantsList() {
-            participantsList.innerHTML = '';
+            participantsContainer.innerHTML = '';
+            
+            if (users.length === 0) {
+                participantsContainer.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 20px;">Aún no hay participantes registrados.</p>';
+                return;
+            }
             
             users.forEach(user => {
-                const li = document.createElement('li');
-                li.textContent = user.name;
-                participantsList.appendChild(li);
+                const participantCard = document.createElement('div');
+                participantCard.className = 'participant-card fade-in';
+                
+                participantCard.innerHTML = `
+                    <div class="participant-avatar">${user.avatar}</div>
+                    <h3>${user.name}</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.7;">${user.email}</p>
+                `;
+                
+                participantsContainer.appendChild(participantCard);
             });
         }
 
@@ -456,13 +662,15 @@
             let availableUsers = [...users];
             
             // Realizar asignaciones
+            let success = true;
+            
             users.forEach(user => {
                 // Filtrar usuarios disponibles (excluyendo al usuario actual)
                 const possibleAssignments = availableUsers.filter(u => u.id !== user.id);
                 
                 if (possibleAssignments.length === 0) {
-                    // Si no hay opciones disponibles, reiniciar el proceso
-                    showAlert(drawAlert, 'Error en el sorteo. Inténtalo de nuevo.', 'error');
+                    // Si no hay opciones disponibles, hay un problema
+                    success = false;
                     return;
                 }
                 
@@ -477,13 +685,20 @@
                 availableUsers = availableUsers.filter(u => u.id !== assignedUser.id);
             });
             
+            if (!success) {
+                showAlert(drawAlert, 'Error en el sorteo. Inténtalo de nuevo.', 'error');
+                return;
+            }
+            
             // Guardar asignaciones
             localStorage.setItem('christmasExchangeAssignments', JSON.stringify(assignments));
             
             showAlert(drawAlert, '¡Sorteo realizado con éxito!', 'success');
+            createConfetti();
             
             // Mostrar resultado al admin
             showAssignmentResult();
+            showTab('result');
         }
 
         // Mostrar resultado de la asignación
@@ -493,21 +708,32 @@
                 const assignedUser = users.find(u => u.id === assignedUserId);
                 
                 resultContent.innerHTML = `
-                    <h3>¡Felicitaciones!</h3>
-                    <p>Te ha tocado regalarle a:</p>
-                    <p style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">${assignedUser.name}</p>
-                    <p>🎁 ¡Prepara un regalo especial! 🎄</p>
+                    <div style="position: relative; z-index: 10;">
+                        <h3>¡Felicitaciones ${currentUser.name}!</h3>
+                        <p>En esta Navidad te ha tocado regalarle a:</p>
+                        <div class="result-name">${assignedUser.name}</div>
+                        <p><i class="fas fa-envelope"></i> ${assignedUser.email}</p>
+                        <p style="margin-top: 20px;">🎁 ¡Prepara un regalo especial! 🎄</p>
+                        <p style="font-style: italic; margin-top: 15px;">Recuerda guardar el secreto hasta el día del intercambio</p>
+                    </div>
                 `;
             } else {
-                resultContent.innerHTML = '<p>Aún no se ha realizado el sorteo o no tienes una asignación.</p>';
+                resultContent.innerHTML = `
+                    <div style="position: relative; z-index: 10;">
+                        <h3>¡Hola ${currentUser.name}!</h3>
+                        <p>Aún no se ha realizado el sorteo del intercambio.</p>
+                        <p>Vuelve más tarde para descubrir a quién te toca regalar.</p>
+                    </div>
+                `;
             }
-            
-            resultSection.classList.remove('hidden');
         }
 
         // Mostrar alertas
         function showAlert(alertElement, message, type) {
-            alertElement.textContent = message;
+            alertElement.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'exclamation-triangle'}"></i>
+                <span>${message}</span>
+            `;
             alertElement.className = `alert alert-${type}`;
             alertElement.classList.remove('hidden');
             
@@ -515,6 +741,42 @@
             setTimeout(() => {
                 alertElement.classList.add('hidden');
             }, 5000);
+        }
+
+        // Obtener avatar aleatorio
+        function getRandomAvatar() {
+            const avatars = ['🎅', '🤶', '🧑‍🎄', '👩‍🎄', '🦌', '☃️', '🎄', '🎁', '🔔', '⭐'];
+            return avatars[Math.floor(Math.random() * avatars.length)];
+        }
+
+        // Crear efecto de confeti
+        function createConfetti() {
+            const colors = ['#ffd54f', '#c62828', '#2e7d32', '#2196f3', '#9c27b0'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.opacity = Math.random() * 0.5 + 0.5;
+                document.body.appendChild(confetti);
+                
+                // Animación
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                });
+                
+                // Eliminar después de la animación
+                animation.onfinish = () => {
+                    confetti.remove();
+                };
+            }
         }
     </script>
 </body>
