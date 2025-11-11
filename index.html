@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intercambio Navideño</title>
+    <style>
+        :root {
+            --primary-color: #c62828;
+            --secondary-color: #2e7d32;
+            --accent-color: #ffd54f;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #8e0000);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #a00;
+        }
+        
+        button.secondary {
+            background-color: var(--secondary-color);
+        }
+        
+        button.secondary:hover {
+            background-color: #1b5e20;
+        }
+        
+        .participants-list {
+            list-style-type: none;
+            margin-top: 15px;
+        }
+        
+        .participants-list li {
+            padding: 10px;
+            background-color: #f8f9fa;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .result {
+            text-align: center;
+            padding: 30px;
+            background-color: #e8f5e9;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 2px dashed var(--secondary-color);
+        }
+        
+        .result h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .result p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .alert {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .alert-success {
+            background-color: #e8f5e9;
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+        }
+        
+        .alert-error {
+            background-color: #ffebee;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .admin-section {
+            background-color: #fff3e0;
+            border: 2px solid var(--accent-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🎄 Intercambio Navideño 🎁</h1>
+            <p class="subtitle">Regístrate y descubre a quién te toca regalar</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sección de Login -->
+        <div id="login-section" class="card">
+            <h2 class="card-title">Iniciar Sesión</h2>
+            <div id="login-alert" class="alert hidden"></div>
+            <div class="form-group">
+                <label for="login-email">Correo electrónico</label>
+                <input type="email" id="login-email" placeholder="Tu correo electrónico">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Contraseña</label>
+                <input type="password" id="login-password" placeholder="Tu contraseña">
+            </div>
+            <button id="login-btn">Iniciar Sesión</button>
+            <p style="margin-top: 15px;">¿No tienes cuenta? <a href="#" id="show-register">Regístrate aquí</a></p>
+        </div>
+
+        <!-- Sección de Registro -->
+        <div id="register-section" class="card hidden">
+            <h2 class="card-title">Registro de Participante</h2>
+            <div id="register-alert" class="alert hidden"></div>
+            <div class="form-group">
+                <label for="register-name">Nombre completo</label>
+                <input type="text" id="register-name" placeholder="Tu nombre completo">
+            </div>
+            <div class="form-group">
+                <label for="register-email">Correo electrónico</label>
+                <input type="email" id="register-email" placeholder="Tu correo electrónico">
+            </div>
+            <div class="form-group">
+                <label for="register-password">Contraseña</label>
+                <input type="password" id="register-password" placeholder="Crea una contraseña">
+            </div>
+            <button id="register-btn">Registrarme</button>
+            <p style="margin-top: 15px;">¿Ya tienes cuenta? <a href="#" id="show-login">Inicia sesión aquí</a></p>
+        </div>
+
+        <!-- Sección de Participantes -->
+        <div id="participants-section" class="card hidden">
+            <h2 class="card-title">Participantes Registrados</h2>
+            <ul id="participants-list" class="participants-list">
+                <!-- Los participantes se mostrarán aquí -->
+            </ul>
+        </div>
+
+        <!-- Sección de Resultados -->
+        <div id="result-section" class="card hidden">
+            <h2 class="card-title">Tu Pareja de Intercambio</h2>
+            <div id="result-content" class="result">
+                <!-- El resultado se mostrará aquí -->
+            </div>
+        </div>
+
+        <!-- Sección de Administrador -->
+        <div id="admin-section" class="card admin-section hidden">
+            <h2 class="card-title">Panel de Administración</h2>
+            <p>Cuando todos estén registrados, puedes realizar el sorteo.</p>
+            <button id="draw-btn" class="secondary">Realizar Sorteo</button>
+            <div id="draw-alert" class="alert hidden" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Intercambio Navideño © 2023 - ¡Felices Fiestas!</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos de ejemplo (en una aplicación real, esto estaría en una base de datos)
+        let users = JSON.parse(localStorage.getItem('christmasExchangeUsers')) || [];
+        let assignments = JSON.parse(localStorage.getItem('christmasExchangeAssignments')) || {};
+        let currentUser = null;
+        let isAdmin = false;
+
+        // Elementos del DOM
+        const loginSection = document.getElementById('login-section');
+        const registerSection = document.getElementById('register-section');
+        const participantsSection = document.getElementById('participants-section');
+        const resultSection = document.getElementById('result-section');
+        const adminSection = document.getElementById('admin-section');
+        
+        const loginAlert = document.getElementById('login-alert');
+        const registerAlert = document.getElementById('register-alert');
+        const drawAlert = document.getElementById('draw-alert');
+        
+        const participantsList = document.getElementById('participants-list');
+        const resultContent = document.getElementById('result-content');
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar si hay un usuario logueado
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showUserInterface();
+            }
+
+            // Event listeners
+            document.getElementById('login-btn').addEventListener('click', login);
+            document.getElementById('register-btn').addEventListener('click', register);
+            document.getElementById('show-register').addEventListener('click', showRegister);
+            document.getElementById('show-login').addEventListener('click', showLogin);
+            document.getElementById('draw-btn').addEventListener('click', performDraw);
+        });
+
+        // Mostrar formulario de registro
+        function showRegister() {
+            loginSection.classList.add('hidden');
+            registerSection.classList.remove('hidden');
+            clearAlerts();
+        }
+
+        // Mostrar formulario de login
+        function showLogin() {
+            registerSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            clearAlerts();
+        }
+
+        // Limpiar alertas
+        function clearAlerts() {
+            loginAlert.classList.add('hidden');
+            registerAlert.classList.add('hidden');
+            drawAlert.classList.add('hidden');
+        }
+
+        // Función de login
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                showAlert(loginAlert, 'Por favor, completa todos los campos', 'error');
+                return;
+            }
+            
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showUserInterface();
+                showAlert(loginAlert, '¡Inicio de sesión exitoso!', 'success');
+            } else {
+                showAlert(loginAlert, 'Credenciales incorrectas', 'error');
+            }
+        }
+
+        // Función de registro
+        function register() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            
+            if (!name || !email || !password) {
+                showAlert(registerAlert, 'Por favor, completa todos los campos', 'error');
+                return;
+            }
+            
+            // Verificar si el usuario ya existe
+            if (users.find(u => u.email === email)) {
+                showAlert(registerAlert, 'Este correo ya está registrado', 'error');
+                return;
+            }
+            
+            // Crear nuevo usuario
+            const newUser = {
+                id: Date.now().toString(),
+                name: name,
+                email: email,
+                password: password
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('christmasExchangeUsers', JSON.stringify(users));
+            
+            showAlert(registerAlert, '¡Registro exitoso! Ahora inicia sesión', 'success');
+            
+            // Limpiar formulario
+            document.getElementById('register-name').value = '';
+            document.getElementById('register-email').value = '';
+            document.getElementById('register-password').value = '';
+            
+            // Mostrar formulario de login después de 2 segundos
+            setTimeout(() => {
+                showLogin();
+            }, 2000);
+        }
+
+        // Mostrar interfaz de usuario después del login
+        function showUserInterface() {
+            loginSection.classList.add('hidden');
+            registerSection.classList.add('hidden');
+            
+            // Mostrar participantes
+            updateParticipantsList();
+            participantsSection.classList.remove('hidden');
+            
+            // Verificar si es admin (primer usuario registrado)
+            isAdmin = users.length > 0 && users[0].id === currentUser.id;
+            
+            // Mostrar panel de admin si corresponde
+            if (isAdmin) {
+                adminSection.classList.remove('hidden');
+            }
+            
+            // Verificar si ya se realizó el sorteo
+            if (Object.keys(assignments).length > 0) {
+                // Mostrar resultado si el usuario ya tiene asignación
+                if (assignments[currentUser.id]) {
+                    showAssignmentResult();
+                } else {
+                    resultContent.innerHTML = '<p>El sorteo ya se realizó, pero no tienes una asignación. Contacta al administrador.</p>';
+                    resultSection.classList.remove('hidden');
+                }
+            }
+        }
+
+        // Actualizar lista de participantes
+        function updateParticipantsList() {
+            participantsList.innerHTML = '';
+            
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user.name;
+                participantsList.appendChild(li);
+            });
+        }
+
+        // Realizar sorteo
+        function performDraw() {
+            if (users.length < 2) {
+                showAlert(drawAlert, 'Se necesitan al menos 2 participantes para realizar el sorteo', 'error');
+                return;
+            }
+            
+            // Reiniciar asignaciones
+            assignments = {};
+            
+            // Crear copia de la lista de usuarios para el sorteo
+            let availableUsers = [...users];
+            
+            // Realizar asignaciones
+            users.forEach(user => {
+                // Filtrar usuarios disponibles (excluyendo al usuario actual)
+                const possibleAssignments = availableUsers.filter(u => u.id !== user.id);
+                
+                if (possibleAssignments.length === 0) {
+                    // Si no hay opciones disponibles, reiniciar el proceso
+                    showAlert(drawAlert, 'Error en el sorteo. Inténtalo de nuevo.', 'error');
+                    return;
+                }
+                
+                // Seleccionar aleatoriamente
+                const randomIndex = Math.floor(Math.random() * possibleAssignments.length);
+                const assignedUser = possibleAssignments[randomIndex];
+                
+                // Asignar
+                assignments[user.id] = assignedUser.id;
+                
+                // Eliminar el usuario asignado de la lista de disponibles
+                availableUsers = availableUsers.filter(u => u.id !== assignedUser.id);
+            });
+            
+            // Guardar asignaciones
+            localStorage.setItem('christmasExchangeAssignments', JSON.stringify(assignments));
+            
+            showAlert(drawAlert, '¡Sorteo realizado con éxito!', 'success');
+            
+            // Mostrar resultado al admin
+            showAssignmentResult();
+        }
+
+        // Mostrar resultado de la asignación
+        function showAssignmentResult() {
+            if (assignments[currentUser.id]) {
+                const assignedUserId = assignments[currentUser.id];
+                const assignedUser = users.find(u => u.id === assignedUserId);
+                
+                resultContent.innerHTML = `
+                    <h3>¡Felicitaciones!</h3>
+                    <p>Te ha tocado regalarle a:</p>
+                    <p style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">${assignedUser.name}</p>
+                    <p>🎁 ¡Prepara un regalo especial! 🎄</p>
+                `;
+            } else {
+                resultContent.innerHTML = '<p>Aún no se ha realizado el sorteo o no tienes una asignación.</p>';
+            }
+            
+            resultSection.classList.remove('hidden');
+        }
+
+        // Mostrar alertas
+        function showAlert(alertElement, message, type) {
+            alertElement.textContent = message;
+            alertElement.className = `alert alert-${type}`;
+            alertElement.classList.remove('hidden');
+            
+            // Ocultar alerta después de 5 segundos
+            setTimeout(() => {
+                alertElement.classList.add('hidden');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
